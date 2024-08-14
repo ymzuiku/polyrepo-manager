@@ -1,0 +1,60 @@
+{
+  "name": "@polyrepo/polyrepo-manager",
+  "version": "1.2.5",
+  "description": "Scripts for managing polyrepo projects",
+  "private": false,
+  "main": "./dist/index.cjs",
+  "module": "src/index.ts",
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "./bin.js"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "bin": {
+    "poly": "./bin.js"
+  },
+  "scripts": {
+    "unit": "bun test && rm -rf test-temp",
+    "copy": "bun run src/copy.ts",
+    "installs": "bun run src/installs.ts",
+    "unbuild": "bunx unbuild",
+    "lint": "bunx @biomejs/biome format --write ./ && git add . && bunx @biomejs/biome lint ./",
+    "ts": "tsc --noemit --skipLibCheck --incremental --tsBuildInfoFile './node_modules/.tsbuildinfo'",
+    "precommit": "bun lint && bun ts && bun test",
+    "prepare": "husky install"
+  },
+  "polyCopy": {
+    "@polyrepo/template-base": [
+      "package.json.merge",
+      ".github",
+      "LICENSE",
+      ".gitignore",
+      "biome.json",
+      ".husky",
+      "tsconfig.json",
+      "tsconfig.ci.json"
+    ]
+  },
+  "dependencies": {
+    "@types/chalk": "^2.2.0",
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
+    "zx": "^8.1.4"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@biomejs/biome": "1.8.3",
+    "husky": "^9.0.11"
+  },
+  "peerDependencies": {
+    "typescript": "^5.5.3"
+  }
+}
